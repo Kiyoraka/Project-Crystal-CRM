@@ -230,3 +230,54 @@
 .lead-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
 .center-note { text-align: center; margin-top: 12px; }
 @media (max-width: 767px) { .page-head { flex-wrap: nowrap; } .chip-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; } .chip-row .fchip { flex: none; } .bulk-bar { border-radius: var(--r-card); } }
+
+/* ---------- Lead detail ---------- */
+.detail-crumb { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 13px; }
+.detail-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 20px; align-items: start; margin-bottom: 16px; }
+.detail-id { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.detail-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.detail-title h1 { font: 700 24px/1.2 var(--font-head); }
+.detail-ring { cursor: pointer; border-radius: 999px; }
+.detail-ring:hover .ring-num { color: var(--accent-ink); }
+.detail-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-top: 12px; border-top: 1px solid var(--line); }
+.earlier {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; margin-top: 4px;
+  border-radius: var(--r-chip); border: 1px solid var(--glass-border); background: rgba(17, 17, 19, 0.05); color: var(--ink); font-size: 13px; font-weight: 500;
+}
+.earlier:hover { border-color: var(--glass-border-on); }
+.fu-field { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
+.fu-field .input { min-height: 36px; width: auto; font-size: 13px; padding: 0 10px; border-radius: var(--r-chip); }
+.fu-now { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-weight: 600; }
+.fu-now > span { display: inline-flex; align-items: center; gap: 6px; }
+.answers { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 8px 12px; margin: 0; font-size: 14px; }
+.answers dt { color: var(--text-2); }
+.answers dd { margin: 0; }
+.parts { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--glass-border); display: flex; flex-direction: column; gap: 8px; }
+.parts-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.part { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: var(--r-chip); background: var(--well); border: 1px solid var(--glass-border); font-size: 12px; }
+.part strong { font-size: 14px; }
+.part-total { background: var(--accent); border-color: var(--accent); color: #111; }
+.value-state { font-size: 15px; }
+.value-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.timeline li { position: relative; display: flex; gap: 12px; padding: 0 0 14px; font-size: 14px; }
+.timeline li::before { content: ''; position: absolute; left: 5px; top: 14px; bottom: 0; width: 2px; background: var(--line); }
+.timeline li:last-child::before { display: none; }
+.tl-dot { flex: none; width: 12px; height: 12px; margin-top: 4px; border-radius: 999px; background: var(--accent-ink); box-shadow: 0 0 0 3px var(--accent-tint); }
+.timeline li.is-system .tl-dot { background: var(--cold); box-shadow: 0 0 0 3px var(--hover); }
+.note-box { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; margin-top: 4px; }
+.detail-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--glass-2); border-top: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--blur-modal)); -webkit-backdrop-filter: blur(var(--blur-modal));
+}
+.detail-bar .select { flex: 1; min-width: 0; }
+.detail-bar .fu-field .input { max-width: 170px; }
+.detail-tabs { display: flex; width: 100%; margin-bottom: 12px; }
+.detail-tabs .tab { flex: 1; }
+@media (max-width: 767px) {
+  .phone-hidden { display: none !important; }
+  .detail { padding-bottom: 80px; }
+  .detail-head { grid-template-columns: minmax(0, 1fr) auto; }
+  .detail-title h1 { font-size: 20px; width: 100%; }
+}

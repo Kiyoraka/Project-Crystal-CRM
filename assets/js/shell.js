@@ -96,7 +96,7 @@
         list.unshift(Object.assign({ id: list.reduce((m, x) => Math.max(m, x.id), 0) + 1, time: 'baru', unread: true }, n));
         S.saveNotifs(list);
       },
-      wonLostDialog(id, to) {
+      wonLostDialog(id, to, prefill) {
         if (a.guard()) return;
         const l = deco(S.lead(id), S.users());
         const won = to === 'won';
@@ -104,7 +104,7 @@
           <div class="overlay-head"><h2>${won ? 'Tandakan Won' : 'Tandakan Lost'}</h2><button class="btn btn-ghost btn-icon btn-sm" data-close aria-label="Tutup">${icon('close', 18)}</button></div>
           <div><strong>${l.name}</strong> <span class="muted">· ${l.budgetShort} · ${l.typeShort}</span></div>
           ${won
-            ? html`<label class="field">Nilai sebut harga dimenangi (RM)<input class="input" type="number" min="0" step="100" inputmode="numeric" name="value" value="${l.quotation || ''}" placeholder="cth. 88000"></label>`
+            ? html`<label class="field">Nilai sebut harga dimenangi (RM)<input class="input" type="number" min="0" step="100" inputmode="numeric" name="value" value="${prefill || l.quotation || ''}" placeholder="cth. 88000"></label>`
             : html`<label class="field">Sebab lost<select class="select" name="reason"><option value="">Pilih sebab…</option>${(S.lists().lost || D.LOST_REASONS).map(r => html`<option>${r}</option>`)}</select></label>`}
           <div class="field-error" data-err hidden>${icon('alert', 14)}${won ? 'Masukkan nilai sebut harga.' : 'Pilih sebab lost.'}</div>
           <div class="overlay-actions"><button class="btn btn-secondary" data-close>Batal</button><button class="btn ${won ? 'btn-won' : 'btn-lost-solid'}" data-confirm>${won ? 'Sahkan Won' : 'Sahkan Lost'}</button></div>`;
