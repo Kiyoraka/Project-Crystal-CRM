@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Log masuk — Crystal CRM</title>
+  <meta name="theme-color" content="#1F2933">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <style>
+    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .login-col { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 14px; }
+    .login-card { padding: 28px; border-radius: var(--r-modal); display: flex; flex-direction: column; gap: 16px; background: var(--glass-1); border: 1px solid var(--glass-border); box-shadow: var(--shadow-glass); backdrop-filter: blur(var(--blur-modal)); -webkit-backdrop-filter: blur(var(--blur-modal)); }
+    .login-brand { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 4px; font: 800 18px var(--font-head); letter-spacing: 0.08em; }
+    .login-mark { width: 22px; height: 22px; background: var(--accent); border-radius: 6px; transform: rotate(45deg); box-shadow: 0 0 20px rgba(255, 122, 26, 0.5); }
+    .pw-wrap { position: relative; }
+    .pw-wrap .input { padding-right: 48px; }
+    .pw-toggle { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: none; border-radius: 10px; background: transparent; color: var(--text-2); display: flex; align-items: center; justify-content: center; }
+    .pw-toggle:hover { background: var(--hover); }
+    .login-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; }
+    .login-row a { font-weight: 500; text-decoration: none; }
+    .demo { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--text-2); }
+    .demo .fchip { min-height: 34px; }
+    .demo .fchip small { color: var(--text-2); font-weight: 400; }
+  </style>
+</head>
+<body class="page-bg">
+  <main class="login-wrap">
+    <div class="login-col">
+      <form class="login-card" id="login-form" novalidate>
+        <div class="login-brand"><span class="login-mark"></span><span>CRYSTAL CRM</span></div>
+        <label class="field">Emel<input class="input" type="email" name="email" value="aiman@crystal.my" autocomplete="username" required></label>
+        <label class="field">Kata laluan
+          <span class="pw-wrap">
+            <input class="input" type="password" name="pw" value="crystal2026" autocomplete="current-password" required>
+            <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Tunjuk kata laluan" aria-pressed="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+            </button>
+          </span>
+        </label>
+        <div class="login-row">
+          <label class="check"><input type="checkbox" name="remember" checked>Ingat saya</label>
+          <a href="#" id="forgot">Lupa kata laluan?</a>
+        </div>
+        <div class="field-error" id="login-err" hidden></div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Log masuk</button>
+      </form>
+      <div class="demo">
+        <span>Demo — masuk sebagai</span>
+        <button type="button" class="fchip" data-role="Owner">Owner <small>· Aiman</small></button>
+        <button type="button" class="fchip" data-role="Sales">Sales <small>· Farid</small></button>
+        <button type="button" class="fchip" data-role="Admin">Admin <small>· Hana</small></button>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/store.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script>
+    (function (C) {
+      'use strict';
+      const S = C.store, U = C.ui;
+      const form = document.getElementById('login-form');
+      const err = document.getElementById('login-err');
+      const next = U.param('next');
+      const target = next && /^[a-z]+\.html(\?.*)?$/.test(next) ? next : 'dashboard.html';
+
+      function enter(role, email) {
+        S.setSession({ role: role, email: email, at: Date.now() });
+        location.href = role === 'Sales' && /settings|users/.test(target) ? 'dashboard.html' : target;
+      }
+
+      // Hardcoded demo: any password works; the email picks the user's role (unknown email → Owner).
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = form.email.value.trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !form.pw.value) {
+          err.textContent = 'Masukkan emel dan kata laluan yang sah.';
+          err.hidden = false;
+          return;
+        }
+        const user = S.users().find(u => u.email === email);
+        if (user && !user.active) {
+          err.textContent = 'Akaun ini telah dilumpuhkan. Hubungi Admin.';
+          err.hidden = false;
+          return;
+        }
+        enter(user ? user.role : 'Owner', email);
+      });
+      form.addEventListener('input', function () { err.hidden = true; });
+
+      document.getElementById('pw-toggle').addEventListener('click', function () {
+        const show = form.pw.type === 'password';
+        form.pw.type = show ? 'text' : 'password';
+        this.setAttribute('aria-pressed', show ? 'true' : 'false');
+        this.setAttribute('aria-label', show ? 'Sembunyi kata laluan' : 'Tunjuk kata laluan');
+      });
+      document.getElementById('forgot').addEventListener('click', function (e) {
+        e.preventDefault();
+        U.toast('Pautan reset dihantar ke ' + (form.email.value || 'emel anda'));
+      });
+      document.querySelectorAll('[data-role]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          const role = b.getAttribute('data-role');
+          enter(role, { Owner: 'aiman@crystal.my', Sales: 'farid@crystal.my', Admin: 'hana@crystal.my' }[role]);
+        });
+      });
+      if (S.session()) location.replace(target);
+    })(window.Crystal);
+  </script>
+</body>
+</html>
