@@ -114,7 +114,7 @@
   }
 
   ctx = C.shell.mount({
-    screen: 'lead', title: 'Lead', render,
+    screen: 'lead', title: 'Lead', bottomNav: false, render,
     bind: {
       call: () => ctx.actions.logCall(id),
       parts: () => { ui.showParts = !ui.showParts; ui.tab = 'answers'; ctx.refresh(); },

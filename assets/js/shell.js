@@ -160,6 +160,10 @@
       </nav>
       <div class="sb-spacer"></div>
       <div class="sb-user">${U.avatar(ctx.me.initial)}<div class="sb-user-text"><div class="sb-user-name">${ctx.me.first} · ${ctx.me.role}</div><div class="sb-user-role">${ctx.me.email}</div></div></div>
+      <div class="sb-phone-actions only-phone">
+        <button type="button" class="sb-item" data-act="resetDemo">${icon('refresh', 20, { sw: 1.8 })}<span class="sb-label">Reset demo</span></button>
+        <button type="button" class="sb-item sb-danger" data-act="logout">${icon('logout', 20, { sw: 1.8 })}<span class="sb-label">Log keluar</span></button>
+      </div>
       <button type="button" class="sb-item sb-collapse" data-act="toggleRail" title="Kecilkan / besarkan">${icon('collapse', 20, { sw: 1.8 })}<span class="sb-label">Kecilkan</span></button>`;
   }
 
@@ -182,11 +186,24 @@
       </div>`;
   }
 
+  /** Phone bottom navigation: Owner/Admin get a raised + Lead; Sales get Analytics instead. "Lagi" opens the drawer. */
+  function bottomNavHtml(ctx, active) {
+    const item = (id, label, ic, href, badge) => html`<a class="bnav-item${id === active ? ' is-on' : ''}" href="${href}"${id === active ? U.raw(' aria-current="page"') : ''}>${icon(ic, 22, { sw: 1.8 })}<span class="bnav-label">${label}</span>${badge ? html`<span class="badge" data-badge="hot"${ctx.counts.hot ? '' : U.raw(' hidden')}>${ctx.counts.hot}</span>` : ''}</a>`;
+    const more = html`<button type="button" class="bnav-item" data-act="openDrawer" aria-label="Lagi menu">${icon('menu', 22, { sw: 1.8 })}<span class="bnav-label">Lagi</span></button>`;
+    const dash = item('dashboard', ctx.isSales ? 'Hari saya' : 'Dashboard', 'dashboard', 'dashboard.html');
+    const leads = item('leads', 'Leads', 'leads', 'leads.html', true);
+    const pipe = item('pipeline', 'Pipeline', 'pipeline', 'pipeline.html');
+    const middle = ctx.isSales
+      ? html`${pipe}${item('analytics', 'Analytics', 'analytics', 'analytics.html')}`
+      : html`<a class="bnav-item bnav-cta" href="../semak.html?source=manual" target="_blank" rel="noopener"><span class="bnav-fab">${icon('plus', 24, { sw: 2.4 })}</span><span class="bnav-label">Lead</span></a>${pipe}`;
+    return html`<nav class="bnav" aria-label="Navigasi bawah">${dash}${leads}${middle}${more}</nav>`;
+  }
+
   function quickRowHtml(ctx) {
     return html`
       <a class="fchip" href="leads.html?chip=hot">${icon('flame', 14)}HOT <span class="count" data-badge="hotq">${ctx.counts.hot}</span></a>
       <a class="fchip" href="leads.html?chip=due">${icon('clock', 14)}Due <span class="count" data-badge="due">${ctx.counts.due}</span></a>
-      ${ctx.isSales ? '' : html`<a class="fchip" href="../semak.html?source=manual" target="_blank" rel="noopener">${icon('plus', 14)}Lead</a>`}`;
+      ${ctx.isSales || ctx.bottomNav ? '' : html`<a class="fchip" href="../semak.html?source=manual" target="_blank" rel="noopener">${icon('plus', 14)}Lead</a>`}`;
   }
 
   const NOTIF_ICON = { hot: 'flame', assign: 'assign', due: 'clock', warm: 'dot', cold: 'dot' };
@@ -248,7 +265,8 @@
     const ctx = {
       me: m, role: m.role, isSales: m.role === 'Sales', isAdmin: m.role === 'Admin', isOwner: m.role === 'Owner',
       canAssign: m.role !== 'Sales', canExport: m.role !== 'Sales', offline: offline(),
-      data: () => leadsFor(m), notifs: () => notifsFor(m)
+      data: () => leadsFor(m), notifs: () => notifsFor(m),
+      bottomNav: opts.bottomNav !== false
     };
     ctx.actions = makeActions(ctx);
     ctx.counts = counts(ctx);
@@ -258,6 +276,7 @@
     document.body.classList.add('crm-body');
     document.body.classList.toggle('sb-rail', rail);
     document.body.classList.toggle('offline', ctx.offline);
+    document.body.classList.toggle('has-bnav', ctx.bottomNav);
 
     const shell = document.createElement('div');
     shell.className = 'crm';
@@ -269,7 +288,8 @@
         <header class="topbar">${topbarHtml(ctx, opts.title)}</header>
         <div class="quick-row only-phone">${quickRowHtml(ctx)}</div>
         <main class="crm-view" id="view" tabindex="-1"></main>
-      </div>`);
+      </div>
+      ${ctx.bottomNav ? bottomNavHtml(ctx, opts.screen === 'lead' ? 'leads' : opts.screen) : ''}`);
     document.body.prepend(shell);
     const view = shell.querySelector('#view');
 
@@ -290,7 +310,7 @@
       openNotifs: () => openNotifications(ctx),
       toggleUserMenu: () => setMenu(menu.hidden),
       search: (el, e) => { e.preventDefault(); const q = el.q.value.trim(); location.href = 'leads.html' + (q ? '?q=' + encodeURIComponent(q) : ''); },
-      resetDemo: () => { setMenu(false); S.resetDemo(); U.toast('Demo dipulihkan ke data asal'); },
+      resetDemo: () => { setMenu(false); document.body.classList.remove('drawer-open'); S.resetDemo(); U.toast('Demo dipulihkan ke data asal'); },
       logout: () => { S.clearSession(); location.href = 'login.html'; }
     });
     if (opts.bind) U.bind(view, opts.bind);

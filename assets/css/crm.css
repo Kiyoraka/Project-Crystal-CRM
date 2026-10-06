@@ -406,3 +406,13 @@ button.user-row:hover { background: var(--hover); }
   .detail-head .detail-id .muted { word-break: break-word; }
   .earlier { text-align: left; }
 }
+
+/* ---------- Phone bottom navigation (CRM) ---------- */
+.sb-danger { color: #FCA5A5; }
+.sb-phone-actions { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.10); }
+@media (max-width: 767px) {
+  .has-bnav .tb-btn[data-act="openDrawer"] { display: none; }
+  .has-bnav .crm-view { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .has-bnav .bulk-bar { bottom: calc(80px + env(safe-area-inset-bottom)); }
+  .has-bnav .topbar { padding-left: 16px; }
+}
