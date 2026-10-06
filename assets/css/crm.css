@@ -174,3 +174,17 @@
 .t-overdue { color: var(--lost); font-weight: 600; }
 .t-today { color: var(--accent-ink); font-weight: 600; }
 .t-none { color: var(--text-3); }
+
+/* ---------- Dashboard ---------- */
+.dash-hot { cursor: pointer; }
+.dash-score { margin-left: auto; font: 800 16px var(--font-head); color: var(--accent-ink); }
+.row-item[role="link"] { cursor: pointer; border-radius: 10px; }
+.row-item[role="link"]:hover { background: var(--hover); }
+.row-item[role="link"] { padding-left: 6px; padding-right: 6px; }
+.funnel { display: flex; flex-direction: column; gap: 10px; }
+.funnel-row { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; align-items: center; gap: 10px; font-size: 13px; }
+.funnel-label { color: var(--text-2); }
+.funnel-track { height: 12px; border-radius: 999px; background: var(--hover); overflow: hidden; }
+.funnel-bar { height: 100%; border-radius: 999px; background: var(--accent); }
+.funnel-bar.is-won { background: var(--won); }
+.funnel-num { font-weight: 600; min-width: 64px; text-align: right; }
