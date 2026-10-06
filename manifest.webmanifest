@@ -1,0 +1,13 @@
+{
+  "name": "Crystal CRM",
+  "short_name": "Crystal CRM",
+  "description": "Crystal Inc lead capture and CRM (hardcoded prototype)",
+  "start_url": "crm/login.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F4F4F2",
+  "theme_color": "#1F2933",
+  "icons": [
+    { "src": "assets/img/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
