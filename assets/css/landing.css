@@ -150,14 +150,6 @@
 .lp-footer-lang button.is-on { color: #FFF; font-weight: 600; }
 .lp-footer-note { flex-basis: 100%; font-size: 11px; color: #737373; }
 
-/* ---------- Sticky phone CTA ---------- */
-.lp-sticky {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
-  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-  background: rgba(255, 255, 255, 0.9); border-top: 1px solid var(--glass-border);
-  backdrop-filter: blur(var(--blur-modal)); -webkit-backdrop-filter: blur(var(--blur-modal));
-}
-.lp-sticky-btn { min-height: 50px; font-size: 15px; }
 
 /* ---------- Phone ---------- */
 @media (max-width: 767px) {

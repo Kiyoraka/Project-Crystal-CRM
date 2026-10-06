@@ -3,8 +3,8 @@
   'use strict';
 
   const T = {
-    bm: { navServices: 'Perkhidmatan', navGallery: 'Galeri', navTesti: 'Testimoni', navArea: 'Kawasan', heroTitle: 'Renovate rumah anda tanpa pening kepala', ctaPrimary: 'Semak Anggaran Renovation Anda', ctaSecondary: 'Dapatkan Free Consultation', howTitle: 'Cara ia berfungsi', servicesTitle: 'Perkhidmatan', galleryTitle: 'Sebelum / Selepas', galleryHint: 'Seret pemegang untuk banding', whyTitle: 'Kenapa Crystal', testiTitle: 'Testimoni', areaTitle: 'Kawasan liputan', finalTitle: 'Sedia untuk mula?', finalBody: 'Isi borang 2 minit. Kami hubungi anda dalam 24 jam — tiada komitmen.', login: 'Log masuk', loginStaff: 'Log masuk staf (CRM) ›' },
-    en: { navServices: 'Services', navGallery: 'Gallery', navTesti: 'Reviews', navArea: 'Coverage', heroTitle: 'Renovate your home without the headache', ctaPrimary: 'Check Your Renovation Estimate', ctaSecondary: 'Get a Free Consultation', howTitle: 'How it works', servicesTitle: 'Services', galleryTitle: 'Before / After', galleryHint: 'Drag the handle to compare', whyTitle: 'Why Crystal', testiTitle: 'Reviews', areaTitle: 'Coverage', finalTitle: 'Ready to start?', finalBody: 'A 2-minute form. We call you within 24 hours — no commitment.', login: 'Log in', loginStaff: 'Staff login (CRM) ›' }
+    bm: { navServices: 'Perkhidmatan', navGallery: 'Galeri', navTesti: 'Testimoni', navArea: 'Kawasan', heroTitle: 'Renovate rumah anda tanpa pening kepala', ctaPrimary: 'Semak Anggaran Renovation Anda', ctaSecondary: 'Dapatkan Free Consultation', howTitle: 'Cara ia berfungsi', servicesTitle: 'Perkhidmatan', galleryTitle: 'Sebelum / Selepas', galleryHint: 'Seret pemegang untuk banding', whyTitle: 'Kenapa Crystal', testiTitle: 'Testimoni', areaTitle: 'Kawasan liputan', finalTitle: 'Sedia untuk mula?', finalBody: 'Isi borang 2 minit. Kami hubungi anda dalam 24 jam — tiada komitmen.', login: 'Log masuk', loginStaff: 'Log masuk staf (CRM) ›', bnHome: 'Utama', bnServices: 'Servis', bnCheck: 'Semak', bnLogin: 'Masuk' },
+    en: { navServices: 'Services', navGallery: 'Gallery', navTesti: 'Reviews', navArea: 'Coverage', heroTitle: 'Renovate your home without the headache', ctaPrimary: 'Check Your Renovation Estimate', ctaSecondary: 'Get a Free Consultation', howTitle: 'How it works', servicesTitle: 'Services', galleryTitle: 'Before / After', galleryHint: 'Drag the handle to compare', whyTitle: 'Why Crystal', testiTitle: 'Reviews', areaTitle: 'Coverage', finalTitle: 'Ready to start?', finalBody: 'A 2-minute form. We call you within 24 hours — no commitment.', login: 'Log in', loginStaff: 'Staff login (CRM) ›', bnHome: 'Home', bnServices: 'Services', bnCheck: 'Estimate', bnLogin: 'Login' }
   };
 
   /* ---------- Language ---------- */
@@ -59,6 +59,22 @@
     if (!e.target.classList.contains('ba-range')) return;
     e.target.closest('.ba-frame').style.setProperty('--pos', e.target.value + '%');
   });
+
+  /* ---------- Bottom nav scroll-spy: Utama while the hero shows, Servis on the services section ---------- */
+  const spyItems = document.querySelectorAll('.bnav [data-spy]');
+  if (spyItems.length && 'IntersectionObserver' in window) {
+    const setOn = id => spyItems.forEach(a => {
+      const on = a.getAttribute('data-spy') === id;
+      a.classList.toggle('is-on', on);
+      if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+    });
+    const seen = {};
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { seen[en.target.id] = en.isIntersecting; });
+      setOn(seen.perkhidmatan ? 'perkhidmatan' : seen.top ? 'top' : '');
+    }, { rootMargin: '-35% 0px -45% 0px' });
+    ['top', 'perkhidmatan'].forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
+  }
 
   /* ---------- Photos: assets/img/<slot>.jpg (gpt-image-2 renders, Oct 6 2026) ----------
      Replace any file with the client's real project photo under the same name.
