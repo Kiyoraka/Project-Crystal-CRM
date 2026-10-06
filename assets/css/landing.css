@@ -182,3 +182,13 @@
   .lp-nav { margin-left: 4px; gap: 0; }
   .lp-nav a { padding: 8px 9px; }
 }
+
+/* Staff login entry to the CRM */
+.lp-login {
+  display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 999px;
+  border: 1px solid var(--ink); background: var(--ink); color: #FFF; text-decoration: none; font-size: 13px; font-weight: 600;
+}
+.lp-login:hover { color: #FFF; box-shadow: 0 0 0 3px var(--accent-ring); }
+.lp-menu .lp-menu-login { font-weight: 600; border-top: 1px solid var(--line); margin-top: 4px; }
+/* Tablet: header WhatsApp pill gives way to the login button (WhatsApp stays in the final CTA + footer) */
+@media (min-width: 768px) and (max-width: 1023px) { .lp-wa { display: none !important; } }
