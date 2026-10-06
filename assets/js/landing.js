@@ -60,13 +60,15 @@
     e.target.closest('.ba-frame').style.setProperty('--pos', e.target.value + '%');
   });
 
-  /* ---------- Real photos: add files to assets/img/ and map the slot id here ----------
-     Slots: hero, svc-renovation, svc-id, svc-construction, svc-makeover,
-            ba-before-1..4, ba-after-1..4, coverage-map
-     e.g. PHOTOS = { hero: 'assets/img/hero.jpg' } */
-  const PHOTOS = {};
+  /* ---------- Photos: assets/img/<slot>.jpg (gpt-image-2 renders, Oct 6 2026) ----------
+     Replace any file with the client's real project photo under the same name.
+     A slot missing from this list keeps its labelled placeholder. */
+  const PHOTOS = ['hero', 'svc-renovation', 'svc-id', 'svc-construction', 'svc-makeover',
+    'ba-before-1', 'ba-before-2', 'ba-before-3', 'ba-before-4',
+    'ba-after-1', 'ba-after-2', 'ba-after-3', 'ba-after-4', 'coverage-map'];
   document.querySelectorAll('[data-photo]').forEach(slot => {
-    const src = PHOTOS[slot.getAttribute('data-photo')];
+    const id = slot.getAttribute('data-photo');
+    const src = PHOTOS.includes(id) ? 'assets/img/' + id + '.jpg' : null;
     if (!src) return;
     slot.style.backgroundImage = 'url("' + src + '")';
     slot.classList.add('has-img');

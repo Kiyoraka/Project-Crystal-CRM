@@ -172,3 +172,6 @@
   .lp-service-body h3 { font-size: 15px; }
   .lp-gallery { grid-template-columns: repeat(4, 86%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; }
 }
+
+/* Map is an illustration — show it whole, never cropped */
+.lp-map .photo-slot.has-img { background-size: contain; background-repeat: no-repeat; background-color: #FBF8F3; }
