@@ -298,7 +298,8 @@
     let queued = false;
     ctx.refresh = function () {
       if (queued) return; queued = true;
-      requestAnimationFrame(() => { queued = false; patchCounts(ctx); opts.render(view, ctx); });
+      // microtask (not rAF) so background tabs still refresh after a cross-tab storage event
+      Promise.resolve().then(() => { queued = false; patchCounts(ctx); opts.render(view, ctx); });
     };
     S.onChange(ctx.refresh);
     opts.render(view, ctx);

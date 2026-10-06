@@ -175,6 +175,19 @@
     return g('day') + ' ' + MONTHS[g('month') - 1] + ' ' + g('year') + ' ' + p(g('hour')) + ':' + p(g('minute'));
   }
   const digits = s => String(s || '').replace(/\D/g, '');
+  /** Before a re-render: remember the focused field (by data-focus-key) and caret; returns restore(). */
+  function keepFocus(root) {
+    const el = document.activeElement;
+    const key = el && root.contains(el) && el.getAttribute('data-focus-key');
+    if (!key) return () => {};
+    const start = el.selectionStart, end = el.selectionEnd;
+    return () => {
+      const next = root.querySelector('[data-focus-key="' + key + '"]');
+      if (!next) return;
+      next.focus();
+      try { next.setSelectionRange(start, end); } catch (_) { /* not a text field */ }
+    };
+  }
 
-  C.ui = { html, raw, esc, render, icon, tempChip, statusChip, avatar, scoreRing, photoSlot, empty, toast, open, bind, param, fmtDate, digits };
+  C.ui = { html, raw, esc, render, icon, tempChip, statusChip, avatar, scoreRing, photoSlot, empty, toast, open, bind, param, fmtDate, digits, keepFocus };
 })(window.Crystal = window.Crystal || {});
