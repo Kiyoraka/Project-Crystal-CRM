@@ -389,3 +389,20 @@ button.user-row:hover { background: var(--hover); }
 .user-form { display: flex; flex-direction: column; gap: 14px; padding: 20px; }
 .sheet .user-form { padding: 0; }
 @media (max-width: 767px) { .user-row { grid-template-columns: minmax(0, 1fr) auto auto; } }
+
+/* ---------- Polish: phone + horizontal scrollers ---------- */
+.panel-head > span, .kpi-label, .row-title { line-height: 1.35; }
+.chip-row, .stage-tabs, .quick-row, .kanban { scrollbar-width: none; }
+.chip-row::-webkit-scrollbar, .stage-tabs::-webkit-scrollbar, .quick-row::-webkit-scrollbar { display: none; }
+@media (max-width: 767px) {
+  .page-head > h1 { display: none; }
+  .page-head { margin-bottom: 12px; }
+  .settings-title h1 { display: none; }
+  .row-item { flex-wrap: wrap; }
+  .dash-hot .row-actions { width: 100%; justify-content: flex-end; }
+  .detail-bar .select { flex: 0 0 auto; min-width: 128px; }
+  .detail-bar .fu-field { flex: 1; min-width: 0; }
+  .detail-bar .fu-field .input { max-width: none; width: 100%; }
+  .detail-head .detail-id .muted { word-break: break-word; }
+  .earlier { text-align: left; }
+}

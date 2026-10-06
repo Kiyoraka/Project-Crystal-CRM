@@ -11,8 +11,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 .page-bg { background: var(--page-bg); background-attachment: fixed; min-height: 100vh; }
-img, svg { display: block; max-width: 100%; }
-svg { flex: none; }
+img { display: block; max-width: 100%; }
+svg { display: inline-block; vertical-align: middle; flex: none; max-width: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: var(--accent-ink); }

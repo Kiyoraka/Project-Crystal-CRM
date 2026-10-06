@@ -166,7 +166,7 @@
   .lp-hero-inner { padding: 0 16px 24px; }
   .lp-hero-card { padding: 20px; }
   .lp-hero-card h1 { font-size: 34px; }
-  .lp-cta { flex: 1 1 100%; }
+  .lp-cta { flex: 1 1 100%; white-space: normal; text-align: center; line-height: 1.25; }
   .lp-section { padding: 40px 16px; }
   .lp-service-body { padding: 12px; }
   .lp-service-body h3 { font-size: 15px; }
@@ -175,3 +175,10 @@
 
 /* Map is an illustration — show it whole, never cropped */
 .lp-map .photo-slot.has-img { background-size: contain; background-repeat: no-repeat; background-color: #FBF8F3; }
+
+/* Tablet header: tighten so brand + nav + language + WhatsApp fit from 768 px */
+@media (min-width: 768px) and (max-width: 959px) {
+  .lp-header { gap: 8px; }
+  .lp-nav { margin-left: 4px; gap: 0; }
+  .lp-nav a { padding: 8px 9px; }
+}
